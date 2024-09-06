@@ -12,6 +12,16 @@ pipeline{
         EMAIL_RECIPIENT = 'mmohana923@gmail.com'
     }
 
+    stages {
+        stage('Install Snyk') {
+            steps {
+                script {
+                    // Install Snyk globally via npm
+                    sh 'npm install -g snyk'
+                }
+            }
+        }
+
     stages{
         stage('Build'){
             steps{
