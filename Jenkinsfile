@@ -13,12 +13,6 @@ pipeline{
     }
 
     stages{
-         stage('Checkout') {
-            steps {
-                echo 'Checking out the source code...'
-                checkout scm
-            }
-         }
         stage('Build'){
             steps{
                 echo "Fetching the source code from the directory path specified by the environment variable"
