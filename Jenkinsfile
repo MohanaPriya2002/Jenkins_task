@@ -13,14 +13,14 @@ pipeline{
             steps{
                 echo "Fetching the source code from the directory path specified by the environment variable"
                 echo "Compiling the code and generating any necessary artifacts"
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
         stage('Test'){
             steps{
                 echo "Running the unit tests"
                 echo "Running the integration tests"
-                sh 'mvn test'
+                bat 'mvn test'
             }
             post{
                 always{
@@ -40,13 +40,13 @@ pipeline{
         stage('Code Analysis'){
             steps{
                 echo "Running code analysis using SonarQube"
-                sh 'mvn sonar:sonar'
+                bat 'mvn sonar:sonar'
             }
         }
         stage('Security Scan') {
             steps {
                 echo "Performing security scan using OWASP Dependency-Check"
-                sh 'dependency-check --scan .'
+                bat 'dependency-check --scan .'
             }
             post {
                 always {
@@ -66,20 +66,20 @@ pipeline{
         stage('Deploy to Staging'){
             steps{
                 echo "Deploying the application to the Staging Server"
-                sh 'scp target/app.jar ec2-user@staging-server:/home/ec2-user/app/'
+                bat 'scp target/app.jar ec2-user@staging-server:/home/ec2-user/app/'
             }
         }
         stage('Integration Tests on Staging') {
             steps {
                 echo "Running integration tests on the staging environment"
-                sh './run_staging_integration_tests.sh'
+                bat './run_staging_integration_tests.sh'
             }
         }
 
         stage('Deploy to Production') {
             steps {
                 echo "Deploying the application to the production environment (AWS EC2 instance)"
-                sh 'scp target/app.jar ec2-user@production-server:/home/ec2-user/app/'
+                bat 'scp target/app.jar ec2-user@production-server:/home/ec2-user/app/'
             }
         }
     }
