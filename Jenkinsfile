@@ -69,15 +69,20 @@ pipeline{
                 sh 'scp target/app.jar ec2-user@staging-server:/home/ec2-user/app/'
             }
         }
-        stage('Approval'){
-            steps{
-                echo "Getting approval from the stakeholders"
+        stage('Integration Tests on Staging') {
+            steps {
+                echo "Running integration tests on the staging environment"
+                sh './run_staging_integration_tests.sh'
             }
         }
-        stage('Deploy to Production'){
-            steps{
-                echo "Deploying the application to the production environment"
+
+        stage('Deploy to Production') {
+            steps {
+                echo "Deploying the application to the production environment (AWS EC2 instance)"
+                sh 'scp target/app.jar ec2-user@production-server:/home/ec2-user/app/'
             }
         }
+    }
+}
     }
 }
