@@ -5,6 +5,7 @@ pipeline{
         DIRECTORY_PATH = "C:/Users/mmoha/Downloads/SIT-753--Task"
         TESTING_ENVIRONMENT='TESTING'
         PRODUCTION_ENVIRONMENT= 'LAKSHMI MOHANA PRIYA MADDULA'
+        EMAIL_RECIPIENT = 'mmohana923@gmail.com'
     }
 
     stages{
@@ -12,22 +13,60 @@ pipeline{
             steps{
                 echo "Fetching the source code from the directory path specified by the environment variable"
                 echo "Compiling the code and generating any necessary artifacts"
+                sh 'mvn clean package'
             }
         }
         stage('Test'){
             steps{
                 echo "Running the unit tests"
                 echo "Running the integration tests"
+                sh 'mvn test'
+            }
+            post{
+                always{
+                    script{
+                        def testStatus = currentBuild.currentResult
+                        echo "Sending email"
+                        emailext (
+                            to: "${EMAIL_RECIPIENT}",
+                            subject: "Unit and Integration Tests Stage: ${testStatus}",
+                            body: "The Unit and Integration Tests stage has finished with status: ${testStatus}",
+                            attachmentsPattern: '**/target/surefire-reports/*.xml'
+                        )
+                    }
+                }
             }
         }
-        stage('Code'){
+        stage('Code Analysis'){
             steps{
-                echo "Check the quality of the code"
+                echo "Running code analysis using SonarQube"
+                sh 'mvn sonar:sonar'
             }
         }
-        stage('Deploy'){
+        stage('Security Scan') {
+            steps {
+                echo "Performing security scan using OWASP Dependency-Check"
+                sh 'dependency-check --scan .'
+            }
+            post {
+                always {
+                    script {
+                        def scanStatus = currentBuild.currentResult
+                        echo "Sending email"
+                        emailext (
+                            to: "${EMAIL_RECIPIENT}",
+                            subject: "Security Scan Stage: ${scanStatus}",
+                            body: "The Security Scan stage has finished with status: ${scanStatus}",
+                            attachmentsPattern: '**/dependency-check-report.xml'
+                        )
+                    }
+                }
+            }
+        }
+        stage('Deploy to Staging'){
             steps{
-                echo "Deploying the application to a testing environment specified by the environment variable"
+                echo "Deploying the application to the Staging Server"
+                sh 'scp target/app.jar ec2-user@staging-server:/home/ec2-user/app/'
             }
         }
         stage('Approval'){
