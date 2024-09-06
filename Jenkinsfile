@@ -2,8 +2,8 @@ pipeline{
     agent any
 
     tools{
-        maven "Maven"
-        snyk "Snyk"
+        maven 'Maven'
+        snyk 'Snyk'
     }
 
     environment {
@@ -11,7 +11,6 @@ pipeline{
         TESTING_ENVIRONMENT='TESTING'
         PRODUCTION_ENVIRONMENT= 'LAKSHMI MOHANA PRIYA MADDULA'
         EMAIL_RECIPIENT = 'mmohana923@gmail.com'
-        ANCHORE_URL= 'http://your_anchore_enterprise_host_ip:your_anchore_enterprise_port/v2'
     }
 
     stages{
