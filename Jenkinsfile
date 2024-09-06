@@ -44,7 +44,7 @@ pipeline{
         stage('Code Analysis'){
             steps{
                 echo "Running code analysis using SonarQube"
-                bat 'mvn sonar:sonar'
+                bat 'mvn pmd:pmd'
             }
         }
         stage('Security Scan') {
