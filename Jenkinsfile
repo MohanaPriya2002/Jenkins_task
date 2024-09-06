@@ -51,8 +51,16 @@ pipeline{
         stage('Security Scan') {
             steps {
                 echo "Performing security scan using OWASP Dependency-Check"
-                anchore name: 'my-image-name:latest',
-                engineurl: "${env.ANCHORE_URL}"
+                script {
+            // Pull the OWASP ZAP Docker image if using Docker
+            sh 'docker pull owasp/zap2docker-stable'
+            
+            // Run OWASP ZAP security scan
+            sh 'docker run --rm -v $(pwd):/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t <your-app-url> -r zap-report.html'
+
+            // Save the report as an artifact
+            archiveArtifacts artifacts: 'zap-report.html'
+        }
             }
             post {
                 always {
