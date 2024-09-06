@@ -13,14 +13,6 @@ pipeline{
     }
 
     stages{
-        stage('Install Snyk') {
-            steps {
-                script {
-                    // Install Snyk globally via npm
-                    sh 'npm install -g snyk'
-                }
-            }
-        }
         stage('Build'){
             steps{
                 echo "Fetching the source code from the directory path specified by the environment variable"
