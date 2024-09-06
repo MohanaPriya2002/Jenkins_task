@@ -1,6 +1,10 @@
 pipeline{
     agent any
 
+    tools{
+        maven 'Maven'
+    }
+
     environment {
         DIRECTORY_PATH = "C:/Users/mmoha/Downloads/SIT-753--Task"
         TESTING_ENVIRONMENT='TESTING'
