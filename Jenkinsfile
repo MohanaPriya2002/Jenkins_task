@@ -50,7 +50,7 @@ pipeline{
         stage('Security Scan') {
             steps {
                 echo "Performing security scan using OWASP Dependency-Check"
-                bat 'snyk test --all-projects'
+                bat 'dependency-check --scan .'
             }
             post {
                 always {
