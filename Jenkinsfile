@@ -45,13 +45,13 @@ pipeline{
         }
         stage('Code Analysis'){
             steps{
-                echo "Running code analysis using SonarQube"
+                echo "Running code analysis using pmd"
                 bat 'mvn pmd:pmd'
             }
         }
         stage('Security Scan') {
             steps {
-                echo "Performing security scan using OWASP Dependency-Check"
+                echo "Performing security scan using Snyk"
                 snykSecurity failOnIssues: true, severity: 'high'
             }
             post {
