@@ -50,7 +50,7 @@ pipeline{
         stage('Security Scan') {
             steps {
                 echo "Performing security scan using OWASP Dependency-Check"
-                bat 'dependency-check --scan .'
+                anchore name: 'my-image-name:latest'
             }
             post {
                 always {
