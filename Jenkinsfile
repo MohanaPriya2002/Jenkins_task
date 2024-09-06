@@ -2,8 +2,8 @@ pipeline{
     agent any
 
     tools{
-        maven 'Maven'
-        snyk 'Snyk'
+        maven "Maven"
+        snyk "Snyk"
     }
 
     environment {
