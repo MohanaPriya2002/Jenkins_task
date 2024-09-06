@@ -6,7 +6,7 @@ pipeline{
     }
 
     environment {
-        DIRECTORY_PATH = "C:/Users/mmoha/Downloads/SIT-753--Task"
+        DIRECTORY_PATH = "https://github.com/MohanaPriya2002/Jenkins_task/edit/main/Jenkinsfile"
         TESTING_ENVIRONMENT='TESTING'
         PRODUCTION_ENVIRONMENT= 'LAKSHMI MOHANA PRIYA MADDULA'
         EMAIL_RECIPIENT = 'mmohana923@gmail.com'
