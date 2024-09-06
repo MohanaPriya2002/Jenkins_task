@@ -10,6 +10,7 @@ pipeline{
         TESTING_ENVIRONMENT='TESTING'
         PRODUCTION_ENVIRONMENT= 'LAKSHMI MOHANA PRIYA MADDULA'
         EMAIL_RECIPIENT = 'mmohana923@gmail.com'
+        ANCHORE_URL= 'http://your_anchore_enterprise_host_ip:your_anchore_enterprise_port/v2'
     }
 
     stages{
@@ -50,7 +51,8 @@ pipeline{
         stage('Security Scan') {
             steps {
                 echo "Performing security scan using OWASP Dependency-Check"
-                anchore name: 'my-image-name:latest'
+                anchore name: 'my-image-name:latest',
+                engineurl: "${env.ANCHORE_URL}"
             }
             post {
                 always {
