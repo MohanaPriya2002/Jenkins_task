@@ -12,7 +12,7 @@ pipeline{
         EMAIL_RECIPIENT = 'mmohana923@gmail.com'
     }
 
-    stages {
+    stages{
         stage('Install Snyk') {
             steps {
                 script {
@@ -21,9 +21,6 @@ pipeline{
                 }
             }
         }
-    }
-
-    stages{
         stage('Build'){
             steps{
                 echo "Fetching the source code from the directory path specified by the environment variable"
